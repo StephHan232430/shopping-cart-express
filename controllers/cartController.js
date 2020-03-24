@@ -50,6 +50,35 @@ let cartController = {
           })
       })
     })
+  },
+  addCartItem: (req, res) => {
+    return CartItem.findByPk(req.params.id).then(cartItem => {
+      cartItem
+        .update({
+          quantity: cartItem.quantity + 1
+        })
+        .then(cartItem => {
+          return res.redirect('back')
+        })
+    })
+  },
+  subCartItem: (req, res) => {
+    return CartItem.findByPk(req.params.id).then(cartItem => {
+      cartItem
+        .update({
+          quantity: cartItem.quantity - 1 >= 1 ? cartItem.quantity - 1 : 1
+        })
+        .then(cartItem => {
+          return res.redirect('back')
+        })
+    })
+  },
+  deleteCartItem: (req, res) => {
+    return CartItem.findByPk(req.params.id).then(cartItem => {
+      cartItem.destroy().then(cartItem => {
+        return res.redirect('back')
+      })
+    })
   }
 }
 
